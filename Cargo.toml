@@ -1,15 +1,20 @@
 [package]
 name = "ipv4-display"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "A Rust crate for fast(er) IPv4 to string conversion."
 license = "MIT OR Apache-2.0"
 
 [dependencies]
+ufmt = { version = "0.1.0", features = ["std"], optional = true }
 
 [dev-dependencies]
 criterion = "0.3"
+ufmt = { version = "0.1.0", features = ["std"] }
 
 [[bench]]
 name = "bench"
 harness = false
+
+[profile.release]
+lto = "thin"

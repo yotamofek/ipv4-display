@@ -17,6 +17,11 @@ pub fn criterion_benchmark(c: &mut Criterion) {
         c.bench_function(&format!("ipv4-display {addr}"), |b| {
             b.iter(|| black_box(Ipv4AddrDisplay::new(addr)).to_string())
         });
+
+        #[cfg(feature = "ufmt")]
+        c.bench_function(&format!("ufmt {addr}"), |b| {
+            b.iter(|| black_box(Ipv4AddrDisplay::new(addr)).to_string_ufmt())
+        });
     }
 }
 

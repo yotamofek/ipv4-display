@@ -1,35 +1,42 @@
 #![doc = include_str!("../README.md")]
 
+#[cfg(feature = "ufmt")]
+#[doc(hidden)]
+pub mod ufmt;
+
 use std::{fmt, net::Ipv4Addr, str};
 
 const MAX_LEN: usize = 3 * 4 + 3;
 type Buf = [u8; MAX_LEN];
 
-fn write_octet(octet: u8, buf: &mut Buf, at: &mut usize) {
-    if octet >= 100 {
-        buf[*at] = b'0' + octet / 100;
-        *at += 1;
-    }
-    if octet >= 10 {
-        buf[*at] = b'0' + (octet / 10) % 10;
-        *at += 1;
-    }
-    buf[*at] = b'0' + octet % 10;
-    *at += 1;
+macro_rules! write_octet {
+    ($octet:expr, $buf:ident, $at:ident) => {
+        let octet = $octet;
+        if octet >= 100 {
+            $buf[$at] = b'0' + octet / 100;
+            $at += 1;
+        }
+        if octet >= 10 {
+            $buf[$at] = b'0' + (octet / 10) % 10;
+            $at += 1;
+        }
+        $buf[$at] = b'0' + octet % 10;
+        $at += 1;
+    };
 }
 
-fn ipv4_display(ip: Ipv4Addr) -> (Buf, usize) {
+const fn ipv4_display(ip: Ipv4Addr) -> (Buf, usize) {
     let mut arr: Buf = [b'.'; MAX_LEN];
     let mut at = 0;
 
     let [a, b, c, d] = ip.octets();
-    write_octet(a, &mut arr, &mut at);
+    write_octet!(a, arr, at);
     at += 1;
-    write_octet(b, &mut arr, &mut at);
+    write_octet!(b, arr, at);
     at += 1;
-    write_octet(c, &mut arr, &mut at);
+    write_octet!(c, arr, at);
     at += 1;
-    write_octet(d, &mut arr, &mut at);
+    write_octet!(d, arr, at);
 
     (arr, at)
 }
