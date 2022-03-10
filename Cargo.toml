@@ -1,0 +1,15 @@
+[package]
+name = "ipv4-display"
+version = "0.1.0"
+edition = "2021"
+description = "A Rust crate for fast(er) IPv4 to string conversion."
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+
+[dev-dependencies]
+criterion = "0.3"
+
+[[bench]]
+name = "bench"
+harness = false
