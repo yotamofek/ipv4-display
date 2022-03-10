@@ -15,6 +15,7 @@ impl uDisplay for Ipv4AddrDisplay {
 }
 
 impl uDebug for Ipv4AddrDisplay {
+    #[inline]
     fn fmt<W>(&self, f: &mut ufmt::Formatter<'_, W>) -> Result<(), W::Error>
     where
         W: ufmt::uWrite + ?Sized,
@@ -24,6 +25,7 @@ impl uDebug for Ipv4AddrDisplay {
 }
 
 impl Ipv4AddrDisplay {
+    #[inline]
     pub fn to_string_ufmt(&self) -> String {
         let mut s = String::with_capacity(MAX_LEN);
         let _ = uwrite!(s, "{}", self);
